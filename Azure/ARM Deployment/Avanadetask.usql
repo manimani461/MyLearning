@@ -1,0 +1,16 @@
+
+
+@sourc =
+    EXTRACT FieldName          string,
+            WellID           string,
+            Date          string,
+            ProdAvg           decimal?,
+            ProdTotal       decimal?
+    FROM "/Task/Production_Data.csv"
+    USING Extractors.Csv(skipFirstNRows:1);
+
+@output1 = SELECT WellID,FieldName, (ProdAvg + ProdTotal) AS sum FROM @sourc  ;
+
+OUTPUT @output1 
+    TO "/Output/Production_Data.csv"
+    USING Outputters.Csv();

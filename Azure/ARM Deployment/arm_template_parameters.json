@@ -1,0 +1,84 @@
+{
+    "$schema": "https://schema.management.azure.com/schemas/2015-01-01/deploymentParameters.json#",
+    "contentVersion": "1.0.0.0",
+    "parameters": {
+        "factoryName": {
+            "value": "TestAvandetask03"
+        },
+		"factoryLocation": {
+            "value": "westeurope"
+        },
+        "AzureDataLakeStore1_servicePrincipalKey": {
+            "value": "RnGLweO2tY/6H/EOcOXDwc2wQxGR0WgplN+aaMavPxA="
+        },
+        "AzureBlobStorage_avanadtask01_connectionString": {
+            "value": "DefaultEndpointsProtocol=https;AccountName=avanadtask01;AccountKey=pTlw3ITMVPhTbNYBwvndBgjDTOqaOUWHrbXmFX0eyaPzEUrCK+CmnyFJ57rnBdVTWY2Iofj8GDGZ2sGkjM9ZLA==;EndpointSuffix=core.windows.net"
+        },
+        "AzureDataLakeAnalytics1_servicePrincipalKey": {
+            "value": "RnGLweO2tY/6H/EOcOXDwc2wQxGR0WgplN+aaMavPxA="
+        },
+        "AzureSqlDatabase1_connectionString": {
+            "value": "Server=tcp:avanadtaskserver01.database.windows.net,1433;Initial Catalog=avanadetaskdb01;Persist Security Info=False;User ID=mabotula;Password=man.mani%461;MultipleActiveResultSets=False;Encrypt=True;TrustServerCertificate=False;Connection Timeout=30;"
+        },
+        "dsAzureDataLakeStoreFile_properties_typeProperties_fileName": {
+            "value": ""
+        },
+        "dsAzureDataLakeStoreFile_properties_typeProperties_folderPath": {
+            "value": "Task"
+        },
+        "dsAzureBlobStorage_properties_typeProperties_fileName": {
+            "value": "Production_Data.csv"
+        },
+        "dsAzureBlobStorage_properties_typeProperties_folderPath": {
+            "value": "avanadtask"
+        },
+        "dsAzureBlobSales_properties_typeProperties_fileName": {
+            "value": "BusinessData.csv"
+        },
+        "dsAzureBlobSales_properties_typeProperties_folderPath": {
+            "value": "avanadtask/Input"
+        },
+        "dsAzureBlobCountry_properties_typeProperties_fileName": {
+            "value": "Country.csv"
+        },
+        "dsAzureBlobCountry_properties_typeProperties_folderPath": {
+            "value": "avanadtask/Input"
+        },
+        "dsAzureBlobBusinessType_properties_typeProperties_fileName": {
+            "value": "BAtype.csv"
+        },
+        "dsAzureBlobBusinessType_properties_typeProperties_folderPath": {
+            "value": "avanadtask/Input"
+        },
+        "AzureDataLakeStore1_properties_typeProperties_dataLakeStoreUri": {
+            "value": "https://avanadetask01.azuredatalakestore.net/webhdfs/v1"
+        },
+        "AzureDataLakeStore1_properties_typeProperties_servicePrincipalId": {
+            "value": "affab994-f5c1-436b-9e05-317f616515dd"
+        },
+        "AzureDataLakeStore1_properties_typeProperties_tenant": {
+            "value": "e07f83f3-1da5-4243-9404-20cd77736777"
+        },
+        "AzureDataLakeStore1_properties_typeProperties_subscriptionId": {
+            "value": "33948636-4984-46a5-9cf0-1fda9de164fc"
+        },
+        "AzureDataLakeStore1_properties_typeProperties_resourceGroupName": {
+            "value": "AvanadTask"
+        },
+        "AzureDataLakeAnalytics1_properties_typeProperties_accountName": {
+            "value": "avanadetask"
+        },
+        "AzureDataLakeAnalytics1_properties_typeProperties_servicePrincipalId": {
+            "value": "affab994-f5c1-436b-9e05-317f616515dd"
+        },
+        "AzureDataLakeAnalytics1_properties_typeProperties_tenant": {
+            "value": "e07f83f3-1da5-4243-9404-20cd77736777"
+        },
+        "AzureDataLakeAnalytics1_properties_typeProperties_subscriptionId": {
+            "value": "33948636-4984-46a5-9cf0-1fda9de164fc"
+        },
+        "AzureDataLakeAnalytics1_properties_typeProperties_resourceGroupName": {
+            "value": "AvanadTask"
+        }
+    }
+}

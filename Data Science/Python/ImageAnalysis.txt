@@ -1,0 +1,173 @@
+
+# Colour Identification # 
+
+import cv2
+import numpy as np
+
+img = cv2.imread('C:/Users/mabotula/Documents/Equinor/res2.jpg')
+img_gray = cv2.cvtColor(img,cv2.COLOR_BGR2GRAY)
+cv2.imwrite('C:/Users/mabotula/Documents/Equinor/test.jpg', img_gray)
+img_hsv = cv2.cvtColor(img,cv2.COLOR_BGR2HSV)
+cv2.imwrite('C:/Users/mabotula/Documents/Equinor/test_hsv.jpg', img_hsv)
+lower_blue = np.array([110,50,50])
+upper_blue = np.array([130,255,255])
+lower_green = np.array([45, 100, 50])
+upper_green = np.array([75, 255, 255])
+mask = cv2.inRange(img_hsv, lower_blue, upper_blue)
+mask1 = cv2.inRange(img_hsv, lower_green, upper_green)
+res = cv2.bitwise_and(img,img, mask= mask)
+cv2.imwrite('C:/Users/mabotula/Documents/Equinor/mask.jpg', mask)
+cv2.imwrite('C:/Users/mabotula/Documents/Equinor/mask1_green.jpg', mask1)
+cv2.imwrite('C:/Users/mabotula/Documents/Equinor/res.jpg', res)
+cv2.imshow('img',img)
+
+Mean Squared Error (MSE) or the Structural Similarity Index (SSIM)
+
+green colour =
+ sensitivity = 15;
+[45, 100, 50]  // lower bound
+[75, 255, 255]
+
+
+import cv2
+import numpy as np
+from matplotlib import pyplot as plt
+
+img = cv2.imread('C:/Users/mabotula/Documents/Equinor/G_L08L07.jpg',0)
+color = ('b','g')
+for i,col in enumerate(color):
+    histr = cv2.calcHist([img],[i],None,[256],[0,256])
+    plt.plot(histr,color = col)
+    plt.xlim([0,5000])
+    plt.show()
+	
+	
+	
+	
+	
+import skimage
+from skimage import measure
+def mse(imageA, imageB):
+    err = np.sum((imageA.astype("float") - imageB.astype("float")) ** 2)
+    err /= float(imageA.shape[0] * imageA.shape[1])
+    return err
+
+def  compare_images(imageA, imageB, title):
+     m = mse(imageA, imageB)
+     s = measure.compare_ssim(imageA, imageB)
+     fig = plt.figure(title)
+     plt.suptitle("MSE: %.2f, SSIM: %.2f" % (m, s))
+     ax = fig.add_subplot(1, 2, 1)
+     plt.imshow(imageA, cmap = plt.cm.gray)
+     plt.axis("off")
+     ax = fig.add_subplot(1, 2, 2)
+     plt.imshow(imageB, cmap = plt.cm.gray)
+     plt.axis("off")
+     plt.show()
+
+
+imageA = cv2.imread('C:/Users/mabotula/Documents/Equinor/Netherlands/Images/Input/G_L08L07.jpg')
+imageB = cv2.imread('C:/Users/mabotula/Documents/Equinor/Netherlands/Images/Input/G_L09L08.jpg')
+ 
+# convert the images to grayscale
+imageA = cv2.cvtColor(imageA, cv2.COLOR_BGR2GRAY)
+imageB = cv2.cvtColor(imageB, cv2.COLOR_BGR2GRAY)
+fig = plt.figure("Images")
+images = ("imageA", imageA), ("imageB", imageB)
+for (i, (name, image)) in enumerate(images):
+	# show the image
+	ax = fig.add_subplot(1, 2, i + 1)
+	ax.set_title(name)
+	plt.imshow(image, cmap = plt.cm.gray)
+	plt.axis("off")
+	
+plt.show()
+
+
+compare_images(imageA, imageB, "imageA vs. imageB")
+compare_images(imageA, imageA, "imageA vs. imageA")
+	
+	
+# Clustering 
+
+import numpy as np
+import cv2
+from matplotlib import pyplot as plt
+
+img = cv2.imread('C:/Users/mabotula/Documents/Equinor/G_L08L07.jpg')
+gray = cv2.cvtColor(img,cv2.COLOR_BGR2GRAY)
+ret, thresh = cv2.threshold(gray,0,255,cv2.THRESH_BINARY_INV+cv2.THRESH_OTSU)
+# noise removal
+kernel = np.ones((3,3),np.uint8)
+opening = cv2.morphologyEx(thresh,cv2.MORPH_OPEN,kernel, iterations = 2)
+
+# sure background area
+sure_bg = cv2.dilate(opening,kernel,iterations=3)
+
+# Finding sure foreground area
+dist_transform = cv2.distanceTransform(opening,cv2.DIST_L2,5)
+ret, sure_fg = cv2.threshold(dist_transform,0.7*dist_transform.max(),255,0)
+
+# Finding unknown region
+sure_fg = np.uint8(sure_fg)
+unknown = cv2.subtract(sure_bg,sure_fg)
+
+
+	
+import numpy as np
+import cv2
+
+img = cv2.imread('C:/Users/mabotula/Documents/Equinor/G_L08L07.jpg')
+Z = img.reshape((-1,3))
+
+# convert to np.float32
+Z = np.float32(Z)
+
+# define criteria, number of clusters(K) and apply kmeans()
+criteria = (cv2.TERM_CRITERIA_EPS + cv2.TERM_CRITERIA_MAX_ITER, 10, 1.0)
+K = 2
+ret,label,center=cv2.kmeans(Z,K,None,criteria,10,cv2.KMEANS_RANDOM_CENTERS)
+
+# Now convert back into uint8, and make original image
+center = np.uint8(center)
+res = center[label.flatten()]
+res2 = res.reshape((img.shape))
+cv2.imwrite('C:/Users/mabotula/Documents/Equinor/res2.jpg', res2)
+
+@09A91a0461
+
+
+cv2.imshow("Image", image)
+#cv2.imwrite("image.jpg", image)
+greenLower = np.array([110,50,50], dtype = "uint8")
+greenUpper = np.array([130,255,255], dtype = "uint8")
+green = cv2.inRange(image, greenLower, greenUpper)
+cv2.imwrite("green.jpg", green)
+imglab = morphology.label(green) # create labels in segmented image
+cleaned = morphology.remove_small_objects(imglab, min_size=64, connectivity=2)
+img3 = np.zeros((cleaned.shape)) # create array of size cleaned
+img3[cleaned > 0] = 255 
+img3= np.uint8(img3)
+cv2.imshow("cleaned", img3)
+cv2.imwrite("cleaned.jpg", img3)
+cv2.waitKey(0)
+	
+	
+green = cv2.imread('C:/Users/mabotula/Documents/Equinor/res2.jpg')
+imglab = morphology.label(green)
+cleaned = morphology.remove_small_objects(imglab, min_size=64, connectivity=2)
+img3 = np.zeros((cleaned.shape))
+img3[cleaned > 50] = 255
+img3= np.uint8(img3)
+cv2.imwrite("C:/Users/mabotula/Documents/Equinor/cleaned.jpg", cleaned)
+
+Clustering of the density 
+Geo difference in poisition
+Area occupied 
+
+Ten
+
+Cosine Similaries
+
+
+

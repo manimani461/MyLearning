@@ -1,0 +1,780 @@
+{
+    "$schema": "http://schema.management.azure.com/schemas/2015-01-01/deploymentTemplate.json#",
+    "contentVersion": "1.0.0.0",
+    "parameters": {
+        "factoryName": {
+            "type": "string",
+            "metadata": "Data Factory Name",
+            "defaultValue": "TestAvandetask03"
+        },
+		
+		        "factoryLocation": {
+            "type": "string",
+            "metadata": "Data Factory Location",
+            "defaultValue": "westeurope"
+        },
+		
+		
+        "AzureDataLakeStore1_servicePrincipalKey": {
+            "type": "secureString",
+            "metadata": "Secure string for 'servicePrincipalKey' of 'AzureDataLakeStore1'"
+        },
+        "AzureBlobStorage_avanadtask01_connectionString": {
+            "type": "secureString",
+            "metadata": "Secure string for 'connectionString' of 'AzureBlobStorage_avanadtask01'"
+        },
+        "AzureDataLakeAnalytics1_servicePrincipalKey": {
+            "type": "secureString",
+            "metadata": "Secure string for 'servicePrincipalKey' of 'AzureDataLakeAnalytics1'"
+        },
+        "AzureSqlDatabase1_connectionString": {
+            "type": "secureString",
+            "metadata": "Secure string for 'connectionString' of 'AzureSqlDatabase1'"
+        },
+        "dsAzureDataLakeStoreFile_properties_typeProperties_fileName": {
+            "type": "string",
+            "defaultValue": ""
+        },
+        "dsAzureDataLakeStoreFile_properties_typeProperties_folderPath": {
+            "type": "string",
+            "defaultValue": "Task"
+        },
+        "dsAzureBlobStorage_properties_typeProperties_fileName": {
+            "type": "string",
+            "defaultValue": "Production_Data.csv"
+        },
+        "dsAzureBlobStorage_properties_typeProperties_folderPath": {
+            "type": "string",
+            "defaultValue": "avanadtask"
+        },
+        "dsAzureBlobSales_properties_typeProperties_fileName": {
+            "type": "string",
+            "defaultValue": "BusinessData.csv"
+        },
+        "dsAzureBlobSales_properties_typeProperties_folderPath": {
+            "type": "string",
+            "defaultValue": "avanadtask/Input"
+        },
+        "dsAzureBlobCountry_properties_typeProperties_fileName": {
+            "type": "string",
+            "defaultValue": "Country.csv"
+        },
+        "dsAzureBlobCountry_properties_typeProperties_folderPath": {
+            "type": "string",
+            "defaultValue": "avanadtask/Input"
+        },
+        "dsAzureBlobBusinessType_properties_typeProperties_fileName": {
+            "type": "string",
+            "defaultValue": "BAtype.csv"
+        },
+        "dsAzureBlobBusinessType_properties_typeProperties_folderPath": {
+            "type": "string",
+            "defaultValue": "avanadtask/Input"
+        },
+        "AzureDataLakeStore1_properties_typeProperties_dataLakeStoreUri": {
+            "type": "string",
+            "defaultValue": "https://avanadetask01.azuredatalakestore.net/webhdfs/v1"
+        },
+        "AzureDataLakeStore1_properties_typeProperties_servicePrincipalId": {
+            "type": "string",
+            "defaultValue": "affab994-f5c1-436b-9e05-317f616515dd"
+        },
+        "AzureDataLakeStore1_properties_typeProperties_tenant": {
+            "type": "string",
+            "defaultValue": "e07f83f3-1da5-4243-9404-20cd77736777"
+        },
+        "AzureDataLakeStore1_properties_typeProperties_subscriptionId": {
+            "type": "string",
+            "defaultValue": "33948636-4984-46a5-9cf0-1fda9de164fc"
+        },
+        "AzureDataLakeStore1_properties_typeProperties_resourceGroupName": {
+            "type": "string",
+            "defaultValue": "AvanadTask"
+        },
+        "AzureDataLakeAnalytics1_properties_typeProperties_accountName": {
+            "type": "string",
+            "defaultValue": "avanadetask"
+        },
+        "AzureDataLakeAnalytics1_properties_typeProperties_servicePrincipalId": {
+            "type": "string",
+            "defaultValue": "affab994-f5c1-436b-9e05-317f616515dd"
+        },
+        "AzureDataLakeAnalytics1_properties_typeProperties_tenant": {
+            "type": "string",
+            "defaultValue": "e07f83f3-1da5-4243-9404-20cd77736777"
+        },
+        "AzureDataLakeAnalytics1_properties_typeProperties_subscriptionId": {
+            "type": "string",
+            "defaultValue": "33948636-4984-46a5-9cf0-1fda9de164fc"
+        },
+        "AzureDataLakeAnalytics1_properties_typeProperties_resourceGroupName": {
+            "type": "string",
+            "defaultValue": "AvanadTask"
+        }
+    },
+    "variables": {
+        "factoryId": "[concat('Microsoft.DataFactory/factories/', parameters('factoryName'))]"
+    },
+    	    "resources": [{
+        "name": "[parameters('factoryName')]",
+        "apiVersion": "2018-06-01",
+        "type": "Microsoft.DataFactory/factories",
+        "location": "[parameters('factoryLocation')]",
+        "identity": {
+            "type": "SystemAssigned"
+        },
+	"resources": [
+        {
+            "name": "[concat(parameters('factoryName'), '/pipCopyBlobtoADLS')]",
+            "type": "Microsoft.DataFactory/factories/pipelines",
+            "apiVersion": "2018-06-01",
+            "properties": {
+                "description": "Copies file From Blob to ADLS",
+                "activities": [
+                    {
+                        "name": "BlobtoADLS",
+                        "type": "Copy",
+                        "dependsOn": ["[parameters('factoryName')]"],
+                        "policy": {
+                            "timeout": "7.00:00:00",
+                            "retry": 0,
+                            "retryIntervalInSeconds": 30,
+                            "secureOutput": false,
+                            "secureInput": false
+                        },
+                        "userProperties": [],
+                        "typeProperties": {
+                            "source": {
+                                "type": "BlobSource",
+                                "recursive": true
+                            },
+                            "sink": {
+                                "type": "AzureDataLakeStoreSink"
+                            },
+                            "enableStaging": false,
+                            "dataIntegrationUnits": 0
+                        },
+                        "inputs": [
+                            {
+                                "referenceName": "dsAzureBlobStorage",
+                                "type": "DatasetReference",
+                                "parameters": {}
+                            }
+                        ],
+                        "outputs": [
+                            {
+                                "referenceName": "dsAzureDataLakeStoreFile",
+                                "type": "DatasetReference",
+                                "parameters": {}
+                            }
+                        ]
+                    }
+                ],
+                "annotations": []
+            },
+            "dependsOn": [
+			    "[parameters('factoryName')]",
+                "[concat(variables('factoryId'), '/datasets/dsAzureBlobStorage')]",
+                "[concat(variables('factoryId'), '/datasets/dsAzureDataLakeStoreFile')]"
+            ]
+        },
+        {
+            "name": "[concat(parameters('factoryName'), '/pipRunUsqlCode')]",
+            "type": "Microsoft.DataFactory/factories/pipelines",
+            "apiVersion": "2018-06-01",
+            "properties": {
+                "activities": [
+                    {
+                        "name": "U-SQL1",
+                        "type": "DataLakeAnalyticsU-SQL",
+                        "dependsOn": ["[parameters('factoryName')]"],
+                        "policy": {
+                            "timeout": "7.00:00:00",
+                            "retry": 0,
+                            "retryIntervalInSeconds": 30,
+                            "secureOutput": false,
+                            "secureInput": false
+                        },
+                        "userProperties": [],
+                        "typeProperties": {
+                            "scriptPath": "avanadtask/Usql/Avanadetask.usql",
+                            "scriptLinkedService": {
+                                "referenceName": "AzureBlobStorage_avanadtask01",
+                                "type": "LinkedServiceReference"
+                            }
+                        },
+                        "linkedServiceName": {
+                            "referenceName": "AzureDataLakeAnalytics1",
+                            "type": "LinkedServiceReference"
+                        }
+                    }
+                ],
+                "annotations": []
+            },
+            "dependsOn": [
+			    "[parameters('factoryName')]",
+                "[concat(variables('factoryId'), '/linkedServices/AzureBlobStorage_avanadtask01')]",
+                "[concat(variables('factoryId'), '/linkedServices/AzureDataLakeAnalytics1')]"
+            ]
+        },
+        {
+            "name": "[concat(parameters('factoryName'), '/pipCopyBlobtoSQL')]",
+            "type": "Microsoft.DataFactory/factories/pipelines",
+            "apiVersion": "2018-06-01",
+            "properties": {
+                "activities": [
+                    {
+                        "name": "Copy_Sales",
+                        "type": "Copy",
+                        "dependsOn": ["[parameters('factoryName')]"],
+                        "policy": {
+                            "timeout": "7.00:00:00",
+                            "retry": 0,
+                            "retryIntervalInSeconds": 30,
+                            "secureOutput": false,
+                            "secureInput": false
+                        },
+                        "userProperties": [
+                            {
+                                "name": "Source",
+                                "value": "avanadtask/Input/BusinessData.csv"
+                            },
+                            {
+                                "name": "Destination",
+                                "value": "[concat('[', 'dbo].[Sales]')]"
+                            }
+                        ],
+                        "typeProperties": {
+                            "source": {
+                                "type": "BlobSource",
+                                "recursive": true
+                            },
+                            "sink": {
+                                "type": "SqlSink",
+                                "writeBatchSize": 10000
+                            },
+                            "enableStaging": false,
+                            "dataIntegrationUnits": 0,
+                            "translator": {
+                                "type": "TabularTranslator",
+                                "columnMappings": {
+                                    "Date": "Date",
+                                    "BACode": "CountryCode",
+                                    "BATypeCode": "Businesstype",
+                                    "SalesValue": "SaleValue"
+                                }
+                            }
+                        },
+                        "inputs": [
+                            {
+                                "referenceName": "dsAzureBlobSales",
+                                "type": "DatasetReference",
+                                "parameters": {}
+                            }
+                        ],
+                        "outputs": [
+                            {
+                                "referenceName": "dsSqlSales",
+                                "type": "DatasetReference",
+                                "parameters": {}
+                            }
+                        ]
+                    },
+                    {
+                        "name": "Copy_BAtype",
+                        "type": "Copy",
+                        "dependsOn": [
+						"[parameters('factoryName')]",
+                            {
+                                "activity": "Copy_Sales",
+                                "dependencyConditions": [
+                                    "Succeeded"
+                                ]
+                            }
+                        ],
+                        "policy": {
+                            "timeout": "7.00:00:00",
+                            "retry": 0,
+                            "retryIntervalInSeconds": 30,
+                            "secureOutput": false,
+                            "secureInput": false
+                        },
+                        "userProperties": [
+                            {
+                                "name": "Source",
+                                "value": "avanadtask/Input/BAtype.csv"
+                            },
+                            {
+                                "name": "Destination",
+                                "value": "[concat('[', 'dbo].[BusinessType]')]"
+                            }
+                        ],
+                        "typeProperties": {
+                            "source": {
+                                "type": "BlobSource",
+                                "recursive": true
+                            },
+                            "sink": {
+                                "type": "SqlSink",
+                                "writeBatchSize": 10000
+                            },
+                            "enableStaging": false,
+                            "dataIntegrationUnits": 0,
+                            "translator": {
+                                "type": "TabularTranslator",
+                                "columnMappings": {
+                                    "BAnum": "Businesstype",
+                                    "BAType": "BusinesstypeName"
+                                }
+                            }
+                        },
+                        "inputs": [
+                            {
+                                "referenceName": "dsAzureBlobBusinessType",
+                                "type": "DatasetReference",
+                                "parameters": {}
+                            }
+                        ],
+                        "outputs": [
+                            {
+                                "referenceName": "dsSqlBusinessType",
+                                "type": "DatasetReference",
+                                "parameters": {}
+                            }
+                        ]
+                    },
+                    {
+                        "name": "Copy_Country",
+                        "type": "Copy",
+                        "dependsOn": [
+						"[parameters('factoryName')]",
+                            {
+                                "activity": "Copy_BAtype",
+                                "dependencyConditions": [
+                                    "Succeeded"
+                                ]
+                            }
+                        ],
+                        "policy": {
+                            "timeout": "7.00:00:00",
+                            "retry": 0,
+                            "retryIntervalInSeconds": 30,
+                            "secureOutput": false,
+                            "secureInput": false
+                        },
+                        "userProperties": [
+                            {
+                                "name": "Source",
+                                "value": "avanadtask/Input/Country.csv"
+                            },
+                            {
+                                "name": "Destination",
+                                "value": "[concat('[', 'dbo].[Country]')]"
+                            }
+                        ],
+                        "typeProperties": {
+                            "source": {
+                                "type": "BlobSource",
+                                "recursive": true
+                            },
+                            "sink": {
+                                "type": "SqlSink",
+                                "writeBatchSize": 10000
+                            },
+                            "enableStaging": false,
+                            "dataIntegrationUnits": 0,
+                            "translator": {
+                                "type": "TabularTranslator",
+                                "columnMappings": {
+                                    "CountryCode": "CountryCode",
+                                    "CountryName": "CountryName"
+                                }
+                            }
+                        },
+                        "inputs": [
+                            {
+                                "referenceName": "dsAzureBlobCountry",
+                                "type": "DatasetReference",
+                                "parameters": {}
+                            }
+                        ],
+                        "outputs": [
+                            {
+                                "referenceName": "dsSqlCountry",
+                                "type": "DatasetReference",
+                                "parameters": {}
+                            }
+                        ]
+                    }
+                ],
+                "annotations": []
+            },
+            "dependsOn": [
+			    "[parameters('factoryName')]",
+                "[concat(variables('factoryId'), '/datasets/dsAzureBlobSales')]",
+                "[concat(variables('factoryId'), '/datasets/dsSqlSales')]",
+                "[concat(variables('factoryId'), '/datasets/dsAzureBlobBusinessType')]",
+                "[concat(variables('factoryId'), '/datasets/dsSqlBusinessType')]",
+                "[concat(variables('factoryId'), '/datasets/dsAzureBlobCountry')]",
+                "[concat(variables('factoryId'), '/datasets/dsSqlCountry')]"
+            ]
+        },
+        {
+            "name": "[concat(parameters('factoryName'), '/dsAzureDataLakeStoreFile')]",
+            "type": "Microsoft.DataFactory/factories/datasets",
+            "apiVersion": "2018-06-01",
+            "properties": {
+                "linkedServiceName": {
+                    "referenceName": "AzureDataLakeStore1",
+                    "type": "LinkedServiceReference"
+                },
+                "annotations": [],
+                "type": "AzureDataLakeStoreFile",
+                "typeProperties": {
+                    "format": {
+                        "type": "TextFormat",
+                        "columnDelimiter": ",",
+                        "rowDelimiter": "",
+                        "nullValue": "\\N",
+                        "treatEmptyAsNull": true,
+                        "skipLineCount": 0,
+                        "firstRowAsHeader": true
+                    },
+                    "fileName": "[parameters('dsAzureDataLakeStoreFile_properties_typeProperties_fileName')]",
+                    "folderPath": "[parameters('dsAzureDataLakeStoreFile_properties_typeProperties_folderPath')]"
+                }
+            },
+            "dependsOn": [
+			   "[parameters('factoryName')]", 
+                "[concat(variables('factoryId'), '/linkedServices/AzureDataLakeStore1')]"
+            ]
+        },
+        {
+            "name": "[concat(parameters('factoryName'), '/dsAzureBlobStorage')]",
+            "type": "Microsoft.DataFactory/factories/datasets",
+            "apiVersion": "2018-06-01",
+            "properties": {
+                "linkedServiceName": {
+                    "referenceName": "AzureBlobStorage_avanadtask01",
+                    "type": "LinkedServiceReference"
+                },
+                "annotations": [],
+                "type": "AzureBlob",
+                "typeProperties": {
+                    "format": {
+                        "type": "TextFormat",
+                        "columnDelimiter": ",",
+                        "rowDelimiter": "",
+                        "nullValue": "\\N",
+                        "treatEmptyAsNull": true,
+                        "skipLineCount": 0,
+                        "firstRowAsHeader": true
+                    },
+                    "fileName": "[parameters('dsAzureBlobStorage_properties_typeProperties_fileName')]",
+                    "folderPath": "[parameters('dsAzureBlobStorage_properties_typeProperties_folderPath')]"
+                }
+            },
+            "dependsOn": [
+			     "[parameters('factoryName')]",
+                "[concat(variables('factoryId'), '/linkedServices/AzureBlobStorage_avanadtask01')]"
+            ]
+        },
+        {
+            "name": "[concat(parameters('factoryName'), '/dsAzureBlobSales')]",
+            "type": "Microsoft.DataFactory/factories/datasets",
+            "apiVersion": "2018-06-01",
+            "properties": {
+                "linkedServiceName": {
+                    "referenceName": "AzureBlobStorage_avanadtask01",
+                    "type": "LinkedServiceReference"
+                },
+                "annotations": [],
+                "type": "AzureBlob",
+                "structure": [
+                    {
+                        "name": "Date",
+                        "type": "DateTime"
+                    },
+                    {
+                        "name": "BACode",
+                        "type": "String"
+                    },
+                    {
+                        "name": "BATypeCode",
+                        "type": "Int64"
+                    },
+                    {
+                        "name": "SalesValue",
+                        "type": "Decimal"
+                    }
+                ],
+                "typeProperties": {
+                    "format": {
+                        "type": "TextFormat",
+                        "columnDelimiter": ",",
+                        "rowDelimiter": "",
+                        "nullValue": "\\N",
+                        "encodingName": null,
+                        "treatEmptyAsNull": true,
+                        "skipLineCount": 0,
+                        "firstRowAsHeader": true
+                    },
+                    "fileName": "[parameters('dsAzureBlobSales_properties_typeProperties_fileName')]",
+                    "folderPath": "[parameters('dsAzureBlobSales_properties_typeProperties_folderPath')]"
+                }
+            },
+            "dependsOn": [
+			    "[parameters('factoryName')]",
+                "[concat(variables('factoryId'), '/linkedServices/AzureBlobStorage_avanadtask01')]"
+            ]
+        },
+        {
+            "name": "[concat(parameters('factoryName'), '/dsSqlSales')]",
+            "type": "Microsoft.DataFactory/factories/datasets",
+            "apiVersion": "2018-06-01",
+            "properties": {
+                "linkedServiceName": {
+                    "referenceName": "AzureSqlDatabase1",
+                    "type": "LinkedServiceReference"
+                },
+                "annotations": [],
+                "type": "AzureSqlTable",
+                "structure": [
+                    {
+                        "name": "Date",
+                        "type": "DateTime"
+                    },
+                    {
+                        "name": "CountryCode",
+                        "type": "String"
+                    },
+                    {
+                        "name": "Businesstype",
+                        "type": "Int32"
+                    },
+                    {
+                        "name": "SaleValue",
+                        "type": "Decimal"
+                    }
+                ],
+                "typeProperties": {
+                    "tableName": "[concat('[', 'dbo].[Sales]')]"
+                }
+            },
+            "dependsOn": [
+			    "[parameters('factoryName')]",
+                "[concat(variables('factoryId'), '/linkedServices/AzureSqlDatabase1')]"
+            ]
+        },
+        {
+            "name": "[concat(parameters('factoryName'), '/dsAzureBlobCountry')]",
+            "type": "Microsoft.DataFactory/factories/datasets",
+            "apiVersion": "2018-06-01",
+            "properties": {
+                "linkedServiceName": {
+                    "referenceName": "AzureBlobStorage_avanadtask01",
+                    "type": "LinkedServiceReference"
+                },
+                "annotations": [],
+                "type": "AzureBlob",
+                "structure": [
+                    {
+                        "name": "CountryCode",
+                        "type": "String"
+                    },
+                    {
+                        "name": "CountryName",
+                        "type": "String"
+                    }
+                ],
+                "typeProperties": {
+                    "format": {
+                        "type": "TextFormat",
+                        "columnDelimiter": ",",
+                        "rowDelimiter": "",
+                        "nullValue": "\\N",
+                        "treatEmptyAsNull": true,
+                        "skipLineCount": 0,
+                        "firstRowAsHeader": true
+                    },
+                    "fileName": "[parameters('dsAzureBlobCountry_properties_typeProperties_fileName')]",
+                    "folderPath": "[parameters('dsAzureBlobCountry_properties_typeProperties_folderPath')]"
+                }
+            },
+            "dependsOn": [
+			     "[parameters('factoryName')]",
+                "[concat(variables('factoryId'), '/linkedServices/AzureBlobStorage_avanadtask01')]"
+            ]
+        },
+        {
+            "name": "[concat(parameters('factoryName'), '/dsSqlCountry')]",
+            "type": "Microsoft.DataFactory/factories/datasets",
+            "apiVersion": "2018-06-01",
+            "properties": {
+                "linkedServiceName": {
+                    "referenceName": "AzureSqlDatabase1",
+                    "type": "LinkedServiceReference"
+                },
+                "annotations": [],
+                "type": "AzureSqlTable",
+                "structure": [
+                    {
+                        "name": "CountryCode",
+                        "type": "String"
+                    },
+                    {
+                        "name": "CountryName",
+                        "type": "String"
+                    }
+                ],
+                "typeProperties": {
+                    "tableName": "[concat('[', 'dbo].[Country]')]"
+                }
+            },
+            "dependsOn": [
+			     "[parameters('factoryName')]",
+                "[concat(variables('factoryId'), '/linkedServices/AzureSqlDatabase1')]"
+            ]
+        },
+        {
+            "name": "[concat(parameters('factoryName'), '/dsSqlBusinessType')]",
+            "type": "Microsoft.DataFactory/factories/datasets",
+            "apiVersion": "2018-06-01",
+            "properties": {
+                "linkedServiceName": {
+                    "referenceName": "AzureSqlDatabase1",
+                    "type": "LinkedServiceReference"
+                },
+                "annotations": [],
+                "type": "AzureSqlTable",
+                "structure": [
+                    {
+                        "name": "Businesstype",
+                        "type": "Int32"
+                    },
+                    {
+                        "name": "BusinesstypeName",
+                        "type": "String"
+                    }
+                ],
+                "typeProperties": {
+                    "tableName": "[concat('[', 'dbo].[BusinessType]')]"
+                }
+            },
+            "dependsOn": [
+			     "[parameters('factoryName')]",
+                "[concat(variables('factoryId'), '/linkedServices/AzureSqlDatabase1')]"
+            ]
+        },
+        {
+            "name": "[concat(parameters('factoryName'), '/dsAzureBlobBusinessType')]",
+            "type": "Microsoft.DataFactory/factories/datasets",
+            "apiVersion": "2018-06-01",
+            "properties": {
+                "linkedServiceName": {
+                    "referenceName": "AzureBlobStorage_avanadtask01",
+                    "type": "LinkedServiceReference"
+                },
+                "annotations": [],
+                "type": "AzureBlob",
+                "structure": [
+                    {
+                        "name": "BAnum",
+                        "type": "Int32"
+                    },
+                    {
+                        "name": "BAType",
+                        "type": "String"
+                    }
+                ],
+                "typeProperties": {
+                    "format": {
+                        "type": "TextFormat",
+                        "columnDelimiter": ",",
+                        "rowDelimiter": "",
+                        "nullValue": "\\N",
+                        "encodingName": null,
+                        "treatEmptyAsNull": true,
+                        "skipLineCount": 0,
+                        "firstRowAsHeader": true
+                    },
+                    "fileName": "[parameters('dsAzureBlobBusinessType_properties_typeProperties_fileName')]",
+                    "folderPath": "[parameters('dsAzureBlobBusinessType_properties_typeProperties_folderPath')]"
+                }
+            },
+            "dependsOn": [
+			    "[parameters('factoryName')]",
+                "[concat(variables('factoryId'), '/linkedServices/AzureBlobStorage_avanadtask01')]"
+            ]
+        },
+        {
+            "name": "[concat(parameters('factoryName'), '/AzureDataLakeStore1')]",
+            "type": "Microsoft.DataFactory/factories/linkedServices",
+            "apiVersion": "2018-06-01",
+            "properties": {
+                "annotations": [],
+                "type": "AzureDataLakeStore",
+                "typeProperties": {
+                    "dataLakeStoreUri": "[parameters('AzureDataLakeStore1_properties_typeProperties_dataLakeStoreUri')]",
+                    "servicePrincipalId": "[parameters('AzureDataLakeStore1_properties_typeProperties_servicePrincipalId')]",
+                    "servicePrincipalKey": {
+                        "type": "SecureString",
+                        "value": "[parameters('AzureDataLakeStore1_servicePrincipalKey')]"
+                    },
+                    "tenant": "[parameters('AzureDataLakeStore1_properties_typeProperties_tenant')]",
+                    "subscriptionId": "[parameters('AzureDataLakeStore1_properties_typeProperties_subscriptionId')]",
+                    "resourceGroupName": "[parameters('AzureDataLakeStore1_properties_typeProperties_resourceGroupName')]"
+                }
+            },
+            "dependsOn": ["[parameters('factoryName')]"]
+        },
+        {
+            "name": "[concat(parameters('factoryName'), '/AzureBlobStorage_avanadtask01')]",
+            "type": "Microsoft.DataFactory/factories/linkedServices",
+            "apiVersion": "2018-06-01",
+            "properties": {
+                "annotations": [],
+                "type": "AzureBlobStorage",
+                "typeProperties": {
+                    "connectionString": "[parameters('AzureBlobStorage_avanadtask01_connectionString')]"
+                }
+            },
+            "dependsOn": ["[parameters('factoryName')]"]
+        },
+        {
+            "name": "[concat(parameters('factoryName'), '/AzureDataLakeAnalytics1')]",
+            "type": "Microsoft.DataFactory/factories/linkedServices",
+            "apiVersion": "2018-06-01",
+            "properties": {
+                "annotations": [],
+                "type": "AzureDataLakeAnalytics",
+                "typeProperties": {
+                    "accountName": "[parameters('AzureDataLakeAnalytics1_properties_typeProperties_accountName')]",
+                    "servicePrincipalId": "[parameters('AzureDataLakeAnalytics1_properties_typeProperties_servicePrincipalId')]",
+                    "servicePrincipalKey": {
+                        "type": "SecureString",
+                        "value": "[parameters('AzureDataLakeAnalytics1_servicePrincipalKey')]"
+                    },
+                    "tenant": "[parameters('AzureDataLakeAnalytics1_properties_typeProperties_tenant')]",
+                    "subscriptionId": "[parameters('AzureDataLakeAnalytics1_properties_typeProperties_subscriptionId')]",
+                    "resourceGroupName": "[parameters('AzureDataLakeAnalytics1_properties_typeProperties_resourceGroupName')]"
+                }
+            },
+            "dependsOn": ["[parameters('factoryName')]"]
+        },
+        {
+            "name": "[concat(parameters('factoryName'), '/AzureSqlDatabase1')]",
+            "type": "Microsoft.DataFactory/factories/linkedServices",
+            "apiVersion": "2018-06-01",
+            "properties": {
+                "annotations": [],
+                "type": "AzureSqlDatabase",
+                "typeProperties": {
+                    "connectionString": "[parameters('AzureSqlDatabase1_connectionString')]"
+                }
+            },
+            "dependsOn": ["[parameters('factoryName')]"]
+        }
+    ]
+	}]
+}
