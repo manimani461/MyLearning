@@ -26,7 +26,7 @@ jdbcHostname = "ba-dev-asqlserver.database.windows.net"
 jdbcDatabase = "ba-dev-asqldb"
 jdbcPort = 1433
 jdbcUsername='sql_user'
-jdbcPassword='LaerdalTest#123'
+jdbcPassword='xxxxxxxxxx'
 jdbcUrl = "jdbc:sqlserver://{0}:{1};database={2};user={3};password={4}".format(jdbcHostname, jdbcPort, jdbcDatabase, jdbcUsername, jdbcPassword)
 
 connectionProperties = {
