@@ -20,7 +20,7 @@ datediff_udf = udf(lambda  x,y: F.datediff(F.to_date(x, 'yyyy-MM-dd'),F.to_date(
 
 spark.conf.set(
   "fs.azure.account.key.badevadlsg2.blob.core.windows.net",
-  "w/AdJ4feLp5Pqbc9zRAtOfRRoax70KcYtik0ASoTzz6lG3kuqIOldgbHblTKbv7/BBJhf4s6UYhV76NUZEE1IQ==")
+  "xxxxxxxxxxxxxxxxkey")
 
 jdbcHostname = "ba-dev-asqlserver.database.windows.net"
 jdbcDatabase = "ba-dev-asqldb"
