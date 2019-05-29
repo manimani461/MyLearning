@@ -120,8 +120,16 @@ join.show()
 
 # COMMAND ----------
 
-.write.format("com.databricks.spark.csv").option("header", "true").option("delimiter", ",").save("wasbs://adlsdev@badevadlsg2.blob.core.windows.net/Governed Data/Sources/LMAS/QAD/Staging/FactPurchasing.csv")
+FactPurchasing.write.format("com.databricks.spark.csv").option("header", "true").option("delimiter", ",").option("quoteAll", "true").mode('overwrite').save("wasbs://adlsdev@badevadlsg2.blob.core.windows.net/Governed Data/Sources/LMAS/QAD/Staging/FactPurchasing")
 
 # COMMAND ----------
 
+Files = dbutils.fs.ls("wasbs://adlsdev@badevadlsg2.blob.core.windows.net/Governed Data/Sources/LMAS/QAD/Staging/FactPurchasing/")
 
+for lst in Files:
+  for index,File in enumerate(lst):
+    if index == 0:
+      if File.endswith(".csv"):
+        print(File)
+      else:
+        dbutils.fs.rm(File)
