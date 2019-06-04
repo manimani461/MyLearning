@@ -51,7 +51,11 @@ DimDistributionCenter = spark.read.jdbc(url = jdbcUrl, table = '[dbo].[DimDistri
 DimPOLineDetails = spark.read.jdbc(url = jdbcUrl, table = '[dbo].[DimPOLineDetails]', properties = connectionProperties)
 DimPartMaster = spark.read.jdbc(url = jdbcUrl, table = '[dbo].[DimPartMaster]', properties = connectionProperties)
 
-# COMMAND ----------
+# COMMAND Filter Null or Empty----------
+
+pod_det.select(pod_det.pod_type).distinct().filter((pod_det.pod_type.isNull()) | (pod_det.pod_type == '' )).show()
+
+#--------------------
 
 join = prh_hist.join(pod_det, (prh_hist.prh_domain == pod_det.pod_domain)&(prh_hist.prh_nbr == pod_det.pod_nbr)&(prh_hist.prh_line == pod_det.pod_line),how='left') \
 .join(po_mstr,(pod_det.pod_domain == po_mstr.po_domain)&(pod_det.pod_nbr == po_mstr.po_nbr),how='left') \
