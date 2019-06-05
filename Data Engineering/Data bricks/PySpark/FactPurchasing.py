@@ -54,6 +54,8 @@ DimPartMaster = spark.read.jdbc(url = jdbcUrl, table = '[dbo].[DimPartMaster]', 
 # COMMAND Filter Null or Empty----------
 
 pod_det.select(pod_det.pod_type).distinct().filter((pod_det.pod_type.isNull()) | (pod_det.pod_type == '' )).show()
+FactPurchasing.filter((FactPurchasing.PONumber == 'R1900258') & (FactPurchasing.POLine == '1') & (FactPurchasing.Domain == 'EMALMN')).select(FactPurchasing.PONumber,FactPurchasing.POLine,FactPurchasing.Domain,FactPurchasing.SupplierName).show()
+
 
 #--------------------
 
