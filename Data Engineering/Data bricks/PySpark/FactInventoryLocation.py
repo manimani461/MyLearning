@@ -19,13 +19,13 @@ from datetime import datetime
 
 spark.conf.set(
   "fs.azure.account.key.badevadlsg2.blob.core.windows.net",
-  "w/AdJ4feLp5Pqbc9zRAtOfRRoax70KcYtik0ASoTzz6lG3kuqIOldgbHblTKbv7/BBJhf4s6UYhV76NUZEE1IQ==")
+  "xxxxxxx")
 
 jdbcHostname = "ba-dev-asqlserver.database.windows.net"
 jdbcDatabase = "ba-dev-asqldb"
 jdbcPort = 1433
 jdbcUsername='sql_user'
-jdbcPassword='LaerdalTest#123'
+jdbcPassword='xxxxxx'
 jdbcUrl = "jdbc:sqlserver://{0}:{1};database={2};user={3};password={4}".format(jdbcHostname, jdbcPort, jdbcDatabase, jdbcUsername, jdbcPassword)
 
 connectionProperties = {
