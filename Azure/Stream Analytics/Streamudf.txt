@@ -1,0 +1,20 @@
+--Java Script UDF
+flattenDimensions
+function main(dimensions) {
+    let output = {};
+    for(let i in dimensions) {
+        let dim = dimensions[i];
+        for(let key in dim) {
+            output[key] = dim[key];
+        }
+    }
+    return output;
+}
+
+
+-- UDF in java script
+parse JSON
+function evalJSONString(str) {
+    return JSON.parse(str);
+}
+---
