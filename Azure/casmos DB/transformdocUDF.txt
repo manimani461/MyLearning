@@ -1,0 +1,6 @@
+function transformDocument(eventProperties) {
+    if (eventProperties) {
+        let eventPropertiesAsJson = JSON.parse(eventProperties);
+        return eventPropertiesAsJson;
+    }
+}

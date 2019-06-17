@@ -1,0 +1,131 @@
+// Copyright (c) Microsoft Corporation.  All rights reserved.
+
+function bulkUpsert_v_1_0(docs, optimizeForInserts, startIndex) {
+    /**
+* A DocumentDB stored procedure that upserts a batch of documents (insert new or update if present) using its id property.<br/>
+* This implementation queries for each document's id, and creates if absent and patches if found.
+* The script sets response body to the number of docs imported and is called multiple times 
+* by the client until total number of docs desired by the client is imported.
+* @param  {Object[]} docs - Array of documents to import.
+*/
+    var ErrorCode = {
+        CONFLICT: 409,
+        FORBIDDEN: 403,
+        INSUFFICIENT_STORAGE: 507
+    };
+    var context = getContext();
+    var collection = context.getCollection();
+    var collectionLink = collection.getSelfLink();
+    var response = context.getResponse();
+    // The count of imported docs, also used as current doc index.
+    var count = startIndex;
+    var replaceCount = 0;
+
+    // Validate input.
+    if (!docs) {
+        throw new Error("Input documents array is undefined or null.");
+    }
+
+    var docsLength = docs.length;
+    if (docsLength === 0) {
+        response.setBody(0);
+    }
+
+    tryCreate(docs[count], createCallback);
+
+    function tryCreate(doc, createCallback) {
+        var options = {
+            disableAutomaticIdGeneration: optimizeForInserts
+        };
+
+        // replace this with collection.UpsertDocument() when it supports patch
+        var isAccepted = collection.createDocument(collectionLink, doc, options, createCallback);
+
+        // If the request was accepted, createCallback will be called.
+        // Otherwise report current count back to the client, 
+        // which will call the script again with remaining set of docs.
+        // This condition will happen when this stored procedure has been running too long
+        // and is about to get cancelled by the server. This will allow the calling client
+        // to resume this batch from the point we got to before isAccepted was set to false
+        if (!isAccepted) getContext().getResponse().setBody({ "total": count, "replaced": replaceCount });
+    }
+
+    // To replace the document, first issue a query to find it and then call replace.
+    function retrieveDoc(doc, continuation, retrieveCallback) {
+        var query = { query: "select * from root r where r.id = @id", parameters: [{ name: "@id", value: doc.id }] };
+        var requestOptions = { continuation: continuation };
+        var isAccepted = collection.readDocument(__.getAltLink() + '/docs/' + doc.id, requestOptions, function (err, retrievedDoc, responseOptions) {
+            if (err) {
+               throw err;
+            }
+
+            if (!retrievedDoc) {
+                throw new Error("Error in reading document.");
+            }
+
+            retrieveCallback(retrievedDoc);
+        });
+
+        // this will be retried , set the current count 
+        if (!isAccepted) getContext().getResponse().setBody({ "total": count, "replaced": replaceCount });
+    }
+
+    function tryReplace(document, replaceCallback) {
+        retrieveDoc(document, null, function (retrievedDoc) {
+            var existingDocSelfLink = retrievedDoc._self;
+            replaceCount = replaceCount + 1;
+            mergeReplace(retrievedDoc, document);
+            var isAccepted = collection.replaceDocument(existingDocSelfLink, retrievedDoc, replaceCallback);
+            if (!isAccepted) getContext().getResponse().setBody({ "total": count, "replaced": replaceCount });
+        });
+    }
+
+    // Merges properties recursively from source into dest object by reference. 
+    // All properties present in the source are overwritten in dest
+    // Note - Array values are not merged but overwritten
+    function mergeReplace(dest, source) {
+
+        if (dest instanceof Array) {
+            var k = dest.length;
+            while (k > source.length) {
+                dest.pop();
+                k--;
+            }
+        }
+
+        for (var prop in source) {
+            if (source[prop] && source[prop] instanceof Object && dest[prop] instanceof Object) {
+                mergeReplace(dest[prop], source[prop]);
+            } else {
+                dest[prop] = source[prop];
+            }
+        }
+    }
+
+    function createCallback(err, doc, options) {
+        if (err) {
+            // Replace the document if status code is 409 and upsert is enabled
+            if (err.number === ErrorCode.CONFLICT) {
+                return tryReplace(docs[count], createCallback);
+            }
+            // storage quota exceeded, remap to a 507 so fx can indentify in substatus header
+            else if (err.number === ErrorCode.FORBIDDEN) {
+                err.number = ErrorCode.INSUFFICIENT_STORAGE;
+                throw err;
+            } else {
+                throw err;
+            }
+        } else {
+            // One more document has been inserted, increment the count.
+            count++;
+
+            if (count >= docsLength) {
+                // If we have created all documents, we are done. Just set the response.
+                getContext().getResponse().setBody({ "total": count, "replaced": replaceCount });
+            } else {
+                // Call the CRUD API to create a document.
+                return tryCreate(docs[count], createCallback);
+            }
+        }
+    }
+}
