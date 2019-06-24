@@ -1,0 +1,15 @@
+http://www.npd.no/engelsk/cwi/pbl/en/factmap/download/csvwkt/blkArea.zip
+http://factpages.npd.no/ReportServer?/FactPages/TableView/company_reserves&rs:Command=Render&rc:Toolbar=false&rc:Parameters=f&rs:Format=CSV&Top100=false&IpAddress=62.92.15.134&CultureCode=nb-no
+http://factpages.npd.no/ReportServer?/FactPages/TableView/discovery&rs:Command=Render&rc:Toolbar=false&rc:Parameters=f&rs:Format=CSV&Top100=false&IpAddress=62.92.15.134&CultureCode=nb-no
+http://factpages.npd.no/ReportServer?/FactPages/TableView/discovery_reserves&rs:Command=Render&rc:Toolbar=false&rc:Parameters=f&rs:Format=CSV&Top100=false&IpAddress=79.160.252.45&CultureCode=nb-no
+http://www.npd.no/engelsk/cwi/pbl/en/factmap/download/csvwkt/dscArea.zip
+http://factpages.npd.no/ReportServer?/FactPages/TableView/field&rs:Command=Render&rc:Toolbar=false&rc:Parameters=f&rs:Format=CSV&Top100=false&IpAddress=62.92.15.134&CultureCode=nb-no
+http://factpages.npd.no/ReportServer?/FactPages/TableView/field_reserves&rs:Command=Render&rc:Toolbar=false&rc:Parameters=f&rs:Format=CSV&Top100=false&IpAddress=62.92.15.134&CultureCode=nb-no
+http://www.npd.no/engelsk/cwi/pbl/en/factmap/download/csvwkt/fldArea.zip
+http://factpages.npd.no/ReportServer?/FactPages/TableView/licence&rs:Command=Render&rc:Toolbar=false&rc:Parameters=f&rs:Format=CSV&Top100=false&IpAddress=62.92.15.134&CultureCode=nb-no
+http://factpages.npd.no/ReportServer?/FactPages/TableView/licence_area_poly_hst&rs:Command=Render&rc:Toolbar=false&rc:Parameters=f&rs:Format=CSV&Top100=false&IpAddress=62.92.15.134&CultureCode=nb-no
+http://factpages.npd.no/ReportServer?/FactPages/TableView/licence_petreg_licence_licencee&rs:Command=Render&rc:Toolbar=false&rc:Parameters=f&rs:Format=CSV&Top100=false&IpAddress=62.92.15.134&CultureCode=nb-no
+http://factpages.npd.no/ReportServer?/FactPages/TableView/licence_task&rs:Command=Render&rc:Toolbar=false&rc:Parameters=f&rs:Format=CSV&Top100=false&IpAddress=62.92.15.134&CultureCode=nb-no
+http://factpages.npd.no/ReportServer?/FactPages/TableView/wellbore_coordinates&rs:Command=Render&rc:Toolbar=false&rc:Parameters=f&rs:Format=CSV&Top100=false&IpAddress=62.92.15.134&CultureCode=nb-no
+http://factpages.npd.no/ReportServer?/FactPages/TableView/wellbore_exploration_current_year&rs:Command=Render&rc:Toolbar=false&rc:Parameters=f&rs:Format=CSV&Top100=false&IpAddress=62.92.15.134&CultureCode=nb-no
+http://www.npd.no/engelsk/cwi/pbl/en/factmap/download/csvwkt/wlbPoint.zip

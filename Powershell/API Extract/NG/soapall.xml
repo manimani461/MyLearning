@@ -1,0 +1,17 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<soap12:Envelope xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:soap12="http://www.w3.org/2003/05/soap-envelope">
+  <soap12:Body>
+    <GetPublicationDataWM xmlns="http://www.NationalGrid.com/MIPI/">
+      <reqObject>
+        <LatestFlag>Yes</LatestFlag>
+        <ApplicableForFlag>Yes</ApplicableForFlag>
+        <ToDate>2019-06-06</ToDate>
+        <FromDate>2010-01-01</FromDate>
+        <DateType>GASDAY</DateType>
+        <PublicationObjectNameList>
+          <string>System Entry Energy, Teesside-CATS, D+1</string>
+        </PublicationObjectNameList>
+      </reqObject>
+    </GetPublicationDataWM>
+  </soap12:Body>
+</soap12:Envelope>
