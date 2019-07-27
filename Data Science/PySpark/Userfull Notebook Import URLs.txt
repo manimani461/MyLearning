@@ -27,5 +27,7 @@ https://github.com/MicrosoftDocs/mslearn-create-data-pipelines-using-databricks-
 Databricks Delta streaming:
 https://github.com/MicrosoftDocs/mslearn-streaming-in-azure-databricks/blob/master/DBC/08-Streaming.dbc?raw=true
 
+Data Visualization:
 
+https://github.com/MicrosoftDocs/mslearn-create-data-visualizations-using-azure-databricks-and-power-bi/blob/master/DBC/07-Visualization.dbc?raw=true
 
