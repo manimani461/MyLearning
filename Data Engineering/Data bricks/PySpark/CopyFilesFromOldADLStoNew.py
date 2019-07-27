@@ -47,7 +47,7 @@ dbutils.fs.cp("abfss://adlsdev@badevadlsgen2.dfs.core.windows.net/","abfss://adl
 
 spark.conf.set(
   "fs.azure.account.key.baprodadlsgen2.dfs.core.windows.net",
-  "CeU4VE1ykwoS9Hl4G7XWgjcRBzS5u6PFHs6cVpoAftOfDsVll1xQXM3ymVQAAjgKVBCJN3mVWCFo2naoIDI0qg==")
+  "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx")
 
 # COMMAND ----------
 
