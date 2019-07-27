@@ -1,0 +1,9 @@
+https://github.com/MicrosoftDocs/mslearn-azure-databricks-notebooks-fundamentals/blob/master/DBC/01-notebook-fundamentals.dbc?raw=true
+
+https://github.com/MicrosoftDocs/mslearn-read-and-write-data-using-azure-databricks/blob/master/DBC/04-Reading-Writing-Data.dbc?raw=true
+
+https://github.com/MicrosoftDocs/mslearn-exploratory-data-analysis/blob/master/DBC/02-exploratory-data-analysis.dbc?raw=true
+
+https://github.com/MicrosoftDocs/mslearn-model-training-selection-evaluation/blob/master/DBC/03-model-training-selection-evaluation.dbc?raw=true
+
+https://github.com/MicrosoftDocs/mslearn-deep-learning/blob/master/DBC/04-deep-learning.dbc?raw=true
