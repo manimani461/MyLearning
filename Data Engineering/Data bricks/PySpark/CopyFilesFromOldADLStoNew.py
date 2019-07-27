@@ -11,7 +11,7 @@ from datetime import datetime
 
 spark.conf.set(
   "fs.azure.account.key.badevadlsg2.blob.core.windows.net",
-  "w/AdJ4feLp5Pqbc9zRAtOfRRoax70KcYtik0ASoTzz6lG3kuqIOldgbHblTKbv7/BBJhf4s6UYhV76NUZEE1IQ==")
+  "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx")
 
 # COMMAND ----------
 
@@ -25,7 +25,7 @@ dbutils.fs.ls("wasbs://adlsdev@badevadlsg2.blob.core.windows.net/Governed Data/S
 
 spark.conf.set(
   "fs.azure.account.key.badevadlsgen2.dfs.core.windows.net",
-  "4Cih1YmZ9x6X9tmTSmeNPqkxnCKdPT2BwEPK5OtpyOLAvOR+ODuDdFA3pLVHDPJphJRRML2dYDdk6YMC1b2tNQ==")
+  "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx")
 
 # COMMAND ----------
 
