@@ -7,3 +7,5 @@ https://github.com/MicrosoftDocs/mslearn-exploratory-data-analysis/blob/master/D
 https://github.com/MicrosoftDocs/mslearn-model-training-selection-evaluation/blob/master/DBC/03-model-training-selection-evaluation.dbc?raw=true
 
 https://github.com/MicrosoftDocs/mslearn-deep-learning/blob/master/DBC/04-deep-learning.dbc?raw=true
+
+https://github.com/MicrosoftDocs/mslearn-text-analytics/blob/master/DBC/05-text-analytics.dbc?raw=true
