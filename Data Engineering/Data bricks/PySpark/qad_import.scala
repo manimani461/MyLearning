@@ -4,7 +4,7 @@
 // MAGIC import java.util.Properties;
 // MAGIC import org.apache.spark.sql.functions._
 // MAGIC 
-// MAGIC val jdbcQadHostname = "it-bi-sql.database.windows.net";
+// MAGIC val jdbcQadHostname = "xxxxx.windows.net";
 // MAGIC val jdbcQadPort = 1433;
 // MAGIC val jdbcQadDatabase = "it-bi-sql";
 // MAGIC val jdbcQadUsername = "Pro2Read";
