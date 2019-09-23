@@ -70,14 +70,14 @@ df.select(col('WellID'),col('Field'),col('Month'),col('AvgProduction'),col('Tota
 
 databricks secrets put --scope mykeyvalut --key data-bricks-key
 
-https://lilleputtvault.vault.azure.net/secrets/data-bricks-key/e9449cb9c72c408c8b7c86929d1a772c
+https://xxxxxxx.vault.azure.net/secrets/data-bricks-key/e9449cb9c72c408c8b7c86929d1a772c
 https://westeurope.azuredatabricks.net/?o=2148178971413283#
 
 https://westeurope.azuredatabricks.net#secrets/createScope
 
 
-https://lilleputt-databricks.vault.azure.net/
+https://xxxxxxxx.vault.azure.net/
 
 mykeyvalut
 
-https://lilleputtvault.vault.azure.net/secrets/data-bricks-key/e9449cb9c72c408c8b7c86929d1a772c
+https://xxxxxx.vault.azure.net/secrets/data-bricks-key/e9449cb9c72c408c8b7c86929d1a772c
