@@ -11,7 +11,7 @@ configs = {"dfs.adls.oauth2.access.token.provider.type": "ClientCredential",
            "dfs.adls.oauth2.credential": "tUDnRWLSbS1ipZ6uOwVz5jmw++RpBIIZq1vurv5dUXk=",
            "dfs.adls.oauth2.refresh.url": "https://login.microsoftonline.com/76a2ae5a-9f00-4f6b-95ed-5d33d77c4d61/oauth2/token"}
 # Creating Mount for the defined ADLS Path 
-dbutils.fs.mount(source = "adl://lilleputt1lagring.azuredatalakestore.net/Production_Data.csv",mount_point = "/mnt/kp-adls",extra_configs = configs)
+dbutils.fs.mount(source = "adl://xxxxx.azuredatalakestore.net/Production_Data.csv",mount_point = "/mnt/kp-adls",extra_configs = configs)
 
 # COMMAND ----------
 
